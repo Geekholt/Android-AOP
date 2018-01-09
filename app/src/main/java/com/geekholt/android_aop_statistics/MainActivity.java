@@ -15,27 +15,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void shake(View btn) {
-        long begin = System.currentTimeMillis();
+        long begin = SumUtils.begin();
         //模拟执行耗费时间的代码
-        SystemClock.sleep(20);
-        long duration = System.currentTimeMillis() - begin;
-        Log.i("geekholt", String.format("功能：摇一摇功能，MainActivity的shake方法执行，耗时：%d ms", duration));
+        {
+            Log.i("geekholt", "摇一摇...");
+            SystemClock.sleep(20);
+
+        }
+        SumUtils.end(begin, "摇一摇", "MainActivity", "shake");
     }
 
     public void audio(View btn) {
-        long begin = System.currentTimeMillis();
+        long begin = SumUtils.begin();
         //模拟执行耗费时间的代码
-        SystemClock.sleep(20);
-        long duration = System.currentTimeMillis() - begin;
-        Log.i("geekholt", String.format("功能：语音功能，MainActivity的shake方法执行，耗时：%d ms", duration));
+        {
+            Log.i("geekholt", "语音通话中...");
+            SystemClock.sleep(20);
+
+        }
+        SumUtils.end(begin, "语音通话", "MainActivity", "audio");
     }
 
     public void video(View btn) {
-        long begin = System.currentTimeMillis();
+        long begin = SumUtils.begin();
         //模拟执行耗费时间的代码
-        SystemClock.sleep(20);
-        long duration = System.currentTimeMillis() - begin;
-        Log.i("geekholt", String.format("功能：视频通话功能，MainActivity的shake方法执行，耗时：%d ms", duration));
+        {
+            Log.i("geekholt", "视频通话中...");
+            SystemClock.sleep(20);
+
+        }
+        SumUtils.end(begin, "视频通话", "MainActivity", "video");
     }
 
     public void jump(View btn) {
