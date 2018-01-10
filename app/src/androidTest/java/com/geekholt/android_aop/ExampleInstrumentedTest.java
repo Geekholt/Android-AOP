@@ -1,4 +1,4 @@
-package com.geekholt.android_aop_statistics;
+package com.geekholt.android_aop;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

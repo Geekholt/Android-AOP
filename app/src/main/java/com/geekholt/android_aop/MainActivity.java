@@ -1,4 +1,4 @@
-package com.geekholt.android_aop_statistics;
+package com.geekholt.android_aop;
 
 import android.content.Intent;
 import android.os.SystemClock;
