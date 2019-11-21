@@ -1,17 +1,4 @@
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
-
 apply plugin: 'com.android.application'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.9'
-    }
-}
 
 android {
     compileSdkVersion 26
@@ -31,6 +18,16 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.aspectj:aspectjtools:1.8.9'
+    }
+}
+
+
 dependencies {
     api project(':aspectj')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -41,15 +38,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
 
-final def log = project.logger
-final def variants = project.android.applicationVariants
 
-variants.all { variant ->
-    if (!variant.buildType.isDebuggable()) {
-        log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
-        return;
-    }
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
 
+project.android.applicationVariants.all { variant ->
     JavaCompile javaCompile = variant.javaCompile
     javaCompile.doLast {
         String[] args = ["-showWeaveInfo",
@@ -60,10 +54,11 @@ variants.all { variant ->
                          "-classpath", javaCompile.classpath.asPath,
                          "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)
         ]
-        log.debug "ajc args: " + Arrays.toString(args)
 
         MessageHandler handler = new MessageHandler(true);
-        new Main().run(args, handler);
+        new Main().run(args, handler)
+
+        def log = project.logger
         for (IMessage message : handler.getMessages(null, true)) {
             switch (message.getKind()) {
                 case IMessage.ABORT:
@@ -72,8 +67,6 @@ variants.all { variant ->
                     log.error message.message, message.thrown
                     break;
                 case IMessage.WARNING:
-                    log.warn message.message, message.thrown
-                    break;
                 case IMessage.INFO:
                     log.info message.message, message.thrown
                     break;
@@ -84,6 +77,9 @@ variants.all { variant ->
         }
     }
 }
+
+
+
 
 
 

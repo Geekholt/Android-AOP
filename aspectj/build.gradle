@@ -1,26 +1,5 @@
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
-
 apply plugin: 'com.android.library'
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.9'
-        classpath 'org.aspectj:aspectjweaver:1.8.9'
-    }
-}
-
-
-repositories {
-    mavenCentral()
-}
-dependencies {
-    api 'org.aspectj:aspectjrt:1.8.9'
-}
 android {
     compileSdkVersion 26
 
@@ -43,8 +22,30 @@ android {
 
 }
 
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.aspectj:aspectjtools:1.8.9'
+    }
+}
+
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    api 'org.aspectj:aspectjrt:1.8.9'
+}
+
+
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
+
 android.libraryVariants.all { variant ->
-    //LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
     JavaCompile javaCompile = variant.javaCompile
     javaCompile.doLast {
         String[] args = ["-showWeaveInfo",
@@ -54,7 +55,7 @@ android.libraryVariants.all { variant ->
                          "-d", javaCompile.destinationDir.toString(),
                          "-classpath", javaCompile.classpath.asPath,
                          "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)
-                         ]
+        ]
 
         MessageHandler handler = new MessageHandler(true);
         new Main().run(args, handler)
