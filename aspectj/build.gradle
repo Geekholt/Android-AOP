@@ -19,7 +19,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'org.aspectj:aspectjrt:1.8.9'
+    api 'org.aspectj:aspectjrt:1.8.9'
 }
 android {
     compileSdkVersion 26
